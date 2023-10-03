@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Meteo</title>
+    <style>
+        /* Stili CSS per il widget del meteo */
+        .weather-widget {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather-widget">
+        <h2>Previsioni Meteo</h2>
+        <p>Città: <span id="city"></span></p>
+        <p>Temperatura: <span id="temperature"></span>°C</p>
+        <p>Condizioni: <span id="conditions"></span></p>
+    </div>
+
+    <script>
+        // Chiave API OpenWeatherMap (sostituiscila con la tua chiave)
+        const apiKey = 'b6e67a468c2086d48745e31fa12357ea';
+
+        // Nome della città per cui vuoi ottenere il meteo
+        const city = 'Verona';
+
+        // URL dell'API di OpenWeatherMap
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+
+        // Effettua una richiesta GET all'API
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                // Estrai le informazioni sul meteo dalla risposta JSON
+                const cityName = data.name;
+                const temperature = data.main.temp;
+                const conditions = data.weather[0].description;
+
+                // Aggiorna il contenuto HTML con le informazioni del meteo
+                document.getElementById('city').textContent = cityName;
+                document.getElementById('temperature').textContent = temperature;
+                document.getElementById('conditions').textContent = conditions;
+            })
+            .catch(error => {
+                console.error('Si è verificato un errore nella richiesta:', error);
+            });
+    </script>
+</body>
+</html>
